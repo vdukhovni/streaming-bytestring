@@ -286,7 +286,7 @@ fromStrict bs | B.null bs = Empty ()
 -- Note that this is an /expensive/ operation that forces the whole monadic
 -- ByteString into memory and then copies all the data. If possible, try to
 -- avoid converting back and forth between streaming and strict bytestrings.
-toStrict_ :: Monad m => ByteStream m () -> m B.ByteString
+toStrict_ :: Monad m => ByteStream m r -> m B.ByteString
 toStrict_ = fmap B.concat . SP.toList_ . toChunks
 {-# INLINE toStrict_ #-}
 
@@ -645,7 +645,7 @@ foldr k = foldrChunks (flip (B.foldr k))
 -- | 'fold', applied to a binary operator, a starting value (typically the
 -- left-identity of the operator), and a ByteStream, reduces the ByteStream
 -- using the binary operator, from left to right. We use the style of the foldl
--- libarary for left folds
+-- library for left folds
 fold :: Monad m => (x -> Word8 -> x) -> x -> (x -> b) -> ByteStream m () -> m b
 fold step0 begin finish p0 = loop p0 begin
   where
