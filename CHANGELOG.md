@@ -30,6 +30,14 @@
 - Import 'SPEC' from GHC.Types, as of 9.0, GHC.Exts no longer exports
   `SpecConstrAnnotation`.
 
+#### Performance [#42]
+
+- Improved performance of w8IsSpace to more quickly filter out non-whitespace
+  characters, and updated `words` to use it instead of the internal function
+  `isSpaceWord8` from the `bytestring` package.  (A future version of that
+  package will likely have the same implementation once
+  [PR 315](https://github.com/haskell/bytestring/pull/315) in that package is merged).
+
 #### Fixed [#43]
 
 - An edge case involving overflow in `readInt`. [#43]
